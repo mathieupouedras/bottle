@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="bottlesApp">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<title>Bouteilles à sujet</title>
+
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="css/style.css" rel="stylesheet">
+
+    </head>
+
+
+
+    <body ng-controller="PaintingListCtrl">
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+          {{bottle.number}} {{current.name}}
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+         <img class="col-md-8 img-responsive" ng-src="images/{{current.image1}}"
+                        alt="{{current.name}}">
+        <div class="col-md-4">
+
+          Catégorie : <input type="text" name="Catégorie" value={{current.category}} readonly>
+          </br>
+          Réference : <input type="text" value={{current.reference}} readonly>
+          </br>
+          Hauteur sans bouchon : <input type="text" value={{current.height}} readonly>
+          </br>
+          Hauteur avec bouchon : <input type="text" value={{current.heightWithTap}} readonly>
+          </br>
+          Contenance ML : <input type="text" value={{current.capacity}} readonly>
+          </br>
+          Inscriptions : <input type="text" value={{current.inscription}} readonly>
+          </br>
+          Couleur : <input type="text" value={{current.color}} readonly>
+          </br>
+          Verre : <input type="text" value={{current.glass}} readonly>
+          </br>
+          Etat : <input type="text" value={{current.condition}} readonly>
+        </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+    	<div class="row bg-primary">
+            <div class="col-md-6 text-left">
+    		  <h3>Bouteilles à sujet</h3>
+            </div>
+            <div class="col-md-6 text-right">
+    		  <h3>Benjamin WALGER</h3>
+            </div>
+    	</div>
+        <ul class="row" ng-repeat="bottletmp in bottles" >
+            <div ng-repeat="bottle in bottletmp">
+                <li class="col-md-2 col-sm-2 col-lg-2">
+                  <div class="thumbnail">
+                    <a href="#" data-toggle="modal" data-target="#myModal"
+                          ng-click="open(bottle)">
+                        <img ng-src="images/thumbnails/{{bottle.image1}}"
+                        alt="{{bottle.name}}">
+                    </a>
+                    <div class="caption">
+                      <h6>
+                        {{bottle.number}} {{bottle.name}}
+                      </h6>
+                    </div>
+                </div>
+                </li>
+            </div>
+        </ul>
+
+    </div>
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="js/controller.js"></script>
