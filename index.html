@@ -1,100 +1,109 @@
 <!DOCTYPE html>
 <html lang="fr" ng-app="bottlesApp">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
-    	<title>Bouteilles à sujet</title>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bouteilles à sujet</title>
 
 
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
-        <link href="css/style.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 
-    </head>
+</head>
 
 
 
-    <body ng-controller="PaintingListCtrl">
+<body ng-controller="PaintingListCtrl">
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">
-          {{current.number}} {{current.name}}
-        </h4>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-
-         <img class="col-md-8 img-responsive" ng-src="images/{{current.image1}}"
-                        alt="{{current.name}}">
-        <div class="col-md-4">
-          <h5 ng-hide="current.category == null">Catégorie <span class="label label-info">{{current.category}} </span></h5>
-          <h5 ng-hide="current.reference == null">Réference <span class="label label-info">{{current.reference}} </span></h5>
-          <h5 ng-hide="current.height == null">Hauteur <span class="label label-info">{{current.height}} </span></h5>
-          <h5 ng-hide="current.heightWithTap == null">Hauteur avec bouchon  <span class="label label-info">{{current.heightWithTap}} </span></h5>
-          <h5 ng-hide="current.capacity == null">Contenance ML <span class="label label-info">{{current.capacity}} </span></h5>
-          <h5 ng-hide="current.inscription == null">Inscriptions <span class="label label-info">{{current.inscription}} </span></h5>
-          <h5 ng-hide="current.color == null">Couleur <span class="label label-info">{{current.color}} </span></h5>
-          <h5 ng-hide="current.glass == null">Verre <span class="label label-info">{{current.glass}} </span></h5>
-          <h5 ng-hide="current.condition == null">Etat <span class="label label-info">{{current.condition}} </span></h5>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">
+            {{currentNumber}} {{currentTitle}}
+          </h4>
         </div>
+        <div class="modal-body">
+          <div class="row">
 
-        <ul class="col-md-4" ng-repeat="tap in taps">
-          <li>
-            <div class="thumbnail">
-              <a href="#" ng-click="open2(tap)">
-                <img ng-src="images/thumbnails/{{tap.image1}}" alt="{{tap.name}}">
-                <img ng-src="images/thumbnails/{{tap.image2}}" alt="{{tap.name}}">
-              </a>
-              <div class="caption">
-                <h6>
-                  {{tap.number}} {{tap.name}}
-                </h6>
-              </div>
+           <img class="col-md-8 img-responsive" ng-src="images/{{mainBottleImage}}"
+           alt="{{current.name}}">
+           <div class="col-md-4">
+            <h5 ng-hide="current.category == null">Catégorie <span class="label label-info">{{current.category}} </span></h5>
+            <h5 ng-hide="current.reference == null">Réference <span class="label label-info">{{current.reference}} </span></h5>
+            <h5 ng-hide="current.height == null">Hauteur <span class="label label-info">{{current.height}} </span></h5>
+            <h5 ng-hide="current.heightWithTap == null">Hauteur avec bouchon  <span class="label label-info">{{current.heightWithTap}} </span></h5>
+            <h5 ng-hide="current.capacity == null">Contenance ML <span class="label label-info">{{current.capacity}} </span></h5>
+            <h5 ng-hide="current.inscription == null">Inscriptions <span class="label label-info">{{current.inscription}} </span></h5>
+            <h5 ng-hide="current.color == null">Couleur <span class="label label-info">{{current.color}} </span></h5>
+            <h5 ng-hide="current.glass == null">Verre <span class="label label-info">{{current.glass}} </span></h5>
+            <h5 ng-hide="current.condition == null">Etat <span class="label label-info">{{current.condition}} </span></h5>
+          </div>
+          <div class="col-md-4" ng-hide="tap == null">
+           <div class="thumbnail">
+            <a href="#" ng-click="showTap()">
+              <img ng-src="images/thumbnails/{{tap.image1}}" alt="{{tap.name}}">
+            </a>
+            <div class="caption">
+              <h6>
+                {{tap.number}} {{tap.name}}
+              </h6>
             </div>
-          </li>
-        </ul>  
-    </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+         <div class="thumbnail">
+          <a href="#" ng-click="changeBottleImage()">
+            <img ng-src="images/thumbnails/{{secondBottleImage}}" alt="{{bottle.name}}">
+          </a>
+          <div class="caption">
+            <h6>
+              {{bottle.number}} {{bottle.name}}
+            </h6>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
+</div>
+</div>
 
 
-    <div class="container">
-    	<div class="row bg-primary">
-            <div class="col-md-6 text-left">
-    		  <h3>Bouteilles à sujet</h3>
-            </div>
-            <div class="col-md-6 text-right">
-    		  <h3>Benjamin WALGER</h3>
-            </div>
-    	</div>
-        <ul class="row" ng-repeat="bottletmp in bottles" >
-            <div ng-repeat="bottle in bottletmp">
-                <li class="col-md-2 col-sm-2 col-lg-2">
-                  <div class="thumbnail">
-                    <a href="#" data-toggle="modal" data-target="#myModal"
-                          ng-click="open(bottle)">
-                        <img ng-src="images/thumbnails/{{bottle.image1}}"
-                        alt="{{bottle.name}}">
-                    </a>
-                    <div class="caption">
-                      <h6>
-                        {{bottle.number}} {{bottle.name}}
-                      </h6>
-                    </div>
-                </div>
-                </li>
-            </div>
-        </ul>
-
+<div class="container">
+ <div class="row bg-primary">
+  <div class="col-md-6 text-left">
+    <h3>Bouteilles à sujet</h3>
+  </div>
+  <div class="col-md-6 text-right">
+    <h3>Benjamin WALGER</h3>
+  </div>
+</div>
+<ul class="row" ng-repeat="bottletmp in bottles" >
+  <div ng-repeat="bottle in bottletmp">
+    <li class="col-md-2 col-sm-2 col-lg-2">
+      <div class="thumbnail">
+        <a href="#" data-toggle="modal" data-target="#myModal"
+        ng-click="viewDetails(bottle)">
+        <img ng-src="images/thumbnails/{{bottle.image1}}"
+        alt="{{bottle.name}}">
+      </a>
+      <div class="caption">
+        <h6>
+          {{bottle.number}} {{bottle.name}}
+        </h6>
+      </div>
     </div>
+  </li>
+</div>
+</ul>
+
+</div>
 </body>
 </html>
 
