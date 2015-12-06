@@ -13,8 +13,24 @@ $http.get('data/bottles.json').success(function(data) {
 	});
 
 	$scope.open = function(bottle) {
-	  $scope.current = bottle;
+	    $scope.current = bottle;
+	    $scope.taps = [];
+	    if (bottle.taps) {
+	      for (var i = 0; i < bottle.taps.length; i++) {
+	        if (bottle.taps[i].image1) {
+	          $scope.taps.push(bottle.taps[i]);
+	        }
+	      }
+	    }
 	};
+	
+		$scope.open2 = function(bottle) {
+		  $scope.taps.push($scope.current);
+		  console.log($scope.taps.indexOf(bottle));
+		  $scope.taps.splice($scope.taps.indexOf(bottle), 1);
+		  $scope.current = bottle;
+	};
+
 
 });
 

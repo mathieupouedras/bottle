@@ -24,7 +24,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">
-          {{bottle.number}} {{current.name}}
+          {{current.number}} {{current.name}}
         </h4>
       </div>
       <div class="modal-body">
@@ -33,25 +33,32 @@
          <img class="col-md-8 img-responsive" ng-src="images/{{current.image1}}"
                         alt="{{current.name}}">
         <div class="col-md-4">
-
-          Catégorie : <input type="text" name="Catégorie" value={{current.category}} readonly>
-          </br>
-          Réference : <input type="text" value={{current.reference}} readonly>
-          </br>
-          Hauteur sans bouchon : <input type="text" value={{current.height}} readonly>
-          </br>
-          Hauteur avec bouchon : <input type="text" value={{current.heightWithTap}} readonly>
-          </br>
-          Contenance ML : <input type="text" value={{current.capacity}} readonly>
-          </br>
-          Inscriptions : <input type="text" value={{current.inscription}} readonly>
-          </br>
-          Couleur : <input type="text" value={{current.color}} readonly>
-          </br>
-          Verre : <input type="text" value={{current.glass}} readonly>
-          </br>
-          Etat : <input type="text" value={{current.condition}} readonly>
+          <h5 ng-hide="current.category == null">Catégorie <span class="label label-info">{{current.category}} </span></h5>
+          <h5 ng-hide="current.reference == null">Réference <span class="label label-info">{{current.reference}} </span></h5>
+          <h5 ng-hide="current.height == null">Hauteur <span class="label label-info">{{current.height}} </span></h5>
+          <h5 ng-hide="current.heightWithTap == null">Hauteur avec bouchon  <span class="label label-info">{{current.heightWithTap}} </span></h5>
+          <h5 ng-hide="current.capacity == null">Contenance ML <span class="label label-info">{{current.capacity}} </span></h5>
+          <h5 ng-hide="current.inscription == null">Inscriptions <span class="label label-info">{{current.inscription}} </span></h5>
+          <h5 ng-hide="current.color == null">Couleur <span class="label label-info">{{current.color}} </span></h5>
+          <h5 ng-hide="current.glass == null">Verre <span class="label label-info">{{current.glass}} </span></h5>
+          <h5 ng-hide="current.condition == null">Etat <span class="label label-info">{{current.condition}} </span></h5>
         </div>
+
+        <ul class="col-md-4" ng-repeat="tap in taps">
+          <li>
+            <div class="thumbnail">
+              <a href="#" ng-click="open2(tap)">
+                <img ng-src="images/thumbnails/{{tap.image1}}" alt="{{tap.name}}">
+                <img ng-src="images/thumbnails/{{tap.image2}}" alt="{{tap.name}}">
+              </a>
+              <div class="caption">
+                <h6>
+                  {{tap.number}} {{tap.name}}
+                </h6>
+              </div>
+            </div>
+          </li>
+        </ul>  
     </div>
       </div>
     </div>
