@@ -1,3 +1,5 @@
+'use strict';
+
 var bottlesApp = angular.module('bottlesApp', []);
 
 bottlesApp.controller('PaintingListCtrl', function ($scope, $http) {
@@ -7,50 +9,129 @@ bottlesApp.controller('PaintingListCtrl', function ($scope, $http) {
  $http.get('data/bottles.json').success(function(data) {
   $scope.bottles = data;
   $scope.bottles = partition($scope.bottles, 6);
-  $scope.current = $scope.bottles[3];
 }).error(function(data, status) {
   console.log(status);
 });
 
 $scope.viewDetails = function(bottle) {
- $scope.bottle = bottle;
- $scope.current = bottle;
- $scope.currentTitle = bottle.name;
- $scope.currentNumber = bottle.number;
- $scope.tap = $scope.bottle.taps && $scope.bottle.taps[0];
- $scope.secondBottleImage = bottle.image2;
- $scope.mainBottleImage = bottle.image1;
+ $scope.view = {};
+
+ $scope.view.bottle = bottle;
+
+ // Main image
+ $scope.view.title = bottle.number + " " + bottle.name;
+ $scope.view.mainImage = bottle.image1;
+ $scope.view.mainLegend = "vue 1";
+
+ // Properties
+ setPropertiesToBottle(bottle);
+
+ // firstSideImage
+ $scope.view.firstSideImage = bottle.image2;
+ $scope.view.firstSideLegend = "vue 2";
+
+ // secondSideImage
+ if (bottle.taps && bottle.taps[0].image1 !== '') {
+  $scope.view.secondSideImage = bottle.taps[0].image1;
+  $scope.view.secondSideLegend = bottle.taps[0].number +  " " + bottle.taps[0].name;
+}
+
 };
 
-$scope.showTap = function showTap() {
-  $scope.currentTitle = $scope.current.taps[0].name;
-  $scope.currentNumber = $scope.current.taps[0].number;
-  $scope.current = $scope.current.taps[0];
-  if ($scope.secondBottleImage === $scope.bottle.image1) {
-    $scope.secondBottleImage = $scope.bottle.image2;
+$scope.showSecondSideImage = function showSecondSideImage() {
+  var tap = $scope.view.bottle.taps[0];
+  if ($scope.view.mainImage === $scope.view.bottle.image1) {
+    $scope.view.mainImage = tap.image1;
+    $scope.view.mainLegend = tap.number + " " + tap.name;
+    $scope.view.secondSideImage = $scope.view.bottle.image1;
+    $scope.view.secondSideLegend = "vue 1";
+
+    setPropertiesToTap(tap);
+  }
+  else if ($scope.view.mainImage === $scope.view.bottle.image2) {
+    $scope.view.mainImage = tap.image1;
+    $scope.view.mainLegend = tap.number + " " + tap.name;
+    $scope.view.secondSideImage = $scope.view.bottle.image2;
+    $scope.view.secondSideLegend = "vue 2";
+
+    setPropertiesToTap(tap);
   }
   else {
-    $scope.secondBottleImage = $scope.bottle.image1;
+    // Bouchon
+    if ($scope.view.secondSideImage === $scope.view.bottle.image2) {
+      $scope.view.mainImage = $scope.view.bottle.image1;
+      $scope.view.mainLegend = "vue 1";
+    }
+    else {
+      $scope.view.mainImage = $scope.view.bottle.image1;
+      $scope.view.mainLegend = "vue 1";
+    }
+    $scope.view.secondSideImage = tap.image1;
+    $scope.view.secondSideLegend = tap.number + " " + tap.name;
+
+    setPropertiesToBottle($scope.view.bottle);
   }
-  $scope.mainBottleImage = $scope.tap.image1;
-  $scope.tap = null;
+
 };
 
-$scope.changeBottleImage = function changeBottleImage() {
-  $scope.currentTitle = $scope.bottle.name;
-  $scope.currentNumber = $scope.bottle.number;
-  $scope.current = $scope.bottle;
-  if ($scope.secondBottleImage === $scope.bottle.image1) {
-    $scope.secondBottleImage = $scope.bottle.image2;
-    $scope.mainBottleImage =   $scope.bottle.image1;
+$scope.showFirstSideImage = function showFirstSideImage() {
+  if ($scope.view.mainImage === $scope.view.bottle.image1) {
+    $scope.view.mainImage = $scope.view.bottle.image2;
+    $scope.view.mainLegend = "vue 2";
+    $scope.view.firstSideImage = $scope.view.bottle.image1;
+    $scope.view.firstSideLegend = "vue 1";
+  }
+  else if ($scope.view.mainImage === $scope.view.bottle.image2) {
+    $scope.view.mainImage = $scope.view.bottle.image1;
+    $scope.view.mainLegend = "vue 1";
+    $scope.view.firstSideImage = $scope.view.bottle.image2;
+    $scope.view.firstSideLegend = "vue 2";
   }
   else {
-    $scope.secondBottleImage = $scope.bottle.image1;
-    $scope.mainBottleImage = $scope.bottle.image2;
+    //Bouchon
+    var tap = $scope.view.bottle.taps[0];
+    $scope.view.secondSideImage = tap.image1;
+    $scope.view.secondSideLegend = tap.number + " " + tap.name;
+    if ($scope.view.firstSideImage === $scope.view.bottle.image1) {
+      $scope.view.firstSideImage = $scope.view.bottle.image2;
+      $scope.view.firstSideLegend = "vue 2";
+      $scope.view.mainImage = $scope.view.bottle.image1;
+      $scope.view.mainLegend = "vue 1";
+    }
+    else {
+      $scope.view.firstSideImage = $scope.view.bottle.image1;
+      $scope.view.firstSideLegend = "vue 1";
+      $scope.view.mainImage = $scope.view.bottle.image2;
+      $scope.view.mainLegend = "vue 2";
+    }
+    setPropertiesToBottle($scope.view.bottle);
   }
-  $scope.tap = $scope.bottle.taps && $scope.bottle.taps[0];
+
 };
 
+function setPropertiesToBottle(bottle) {
+ $scope.view.category = bottle.category;
+ $scope.view.reference = bottle.reference;
+ $scope.view.height = bottle.height;
+ $scope.view.heightWithTap = bottle.heightWithTap;
+ $scope.view.capacity = bottle.capacity;
+ $scope.view.inscription = bottle.inscription;
+ $scope.view.color = bottle.color;
+ $scope.view.glass = bottle.glass;
+ $scope.view.condition = bottle.condition;
+}
+
+function setPropertiesToTap(tap) {
+  $scope.view.category = tap.category;
+  $scope.view.reference = tap.reference;
+  $scope.view.height = tap.height;
+  $scope.view.heightWithTap = null;
+  $scope.view.capacity = null;
+  $scope.view.inscription = tap.inscription;
+  $scope.view.color = tap.color;
+  $scope.view.glass = tap.glass;
+  $scope.view.condition = tap.condition;
+}
 
 });
 
@@ -64,3 +145,4 @@ function partition(arr, size) {
   }
   return newArr;
 }
+
