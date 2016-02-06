@@ -99,9 +99,9 @@
         <li>
           <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Que rechercher-vous?">
+          <input type="text" class="form-control" placeholder="Que rechercher-vous?" ng-model="keyword">
         </div>
-        <button type="submit" class="btn btn-default">Rechercher</button>
+        <button type="submit" class="btn btn-default" ng-click="search()" ng-disabled="keyword === ''">Rechercher</button>
       </form>
         </li>
       </ul>
