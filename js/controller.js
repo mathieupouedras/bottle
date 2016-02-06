@@ -4,14 +4,30 @@ var bottlesApp = angular.module('bottlesApp', []);
 
 bottlesApp.controller('PaintingListCtrl', function ($scope, $http) {
 
+ $scope.categories = ['TOUTES LES BOUTEILLES', 'PERSONNAGES', 'MONUMENTS', 'OBJETS', 'ANIMAUX'];
+ $scope.selectedCategory = 'TOUTES LES BOUTEILLES';
+
  $scope.bottles = [];
+  $scope.bottlesNotPartitionned = [];
 
  $http.get('data/bottles.json').success(function(data) {
-  $scope.bottles = data;
-  $scope.bottles = partition($scope.bottles, 6);
+  $scope.bottlesNotPartitionned = data;
+  $scope.bottles = partition($scope.bottlesNotPartitionned, 6);
 }).error(function(data, status) {
   console.log(status);
 });
+
+$scope.categorySelected = function categorySelected(category) {
+  $scope.selectedCategory = category;
+  $scope.bottles = partition($scope.bottlesNotPartitionned.filter(function(bottle) {
+    if ($scope.selectedCategory === 'TOUTES LES BOUTEILLES') {
+      return true;
+    }
+    else {
+      return bottle.category === $scope.selectedCategory;
+    }
+  }), 6); 
+}
 
 $scope.viewDetails = function(bottle) {
  $scope.view = {};
