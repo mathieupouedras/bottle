@@ -3,9 +3,11 @@
 var bottlesApp = angular.module('bottlesApp', []);
 
 bottlesApp.controller('PaintingListCtrl', function ($scope, $http) {
+ 
+ $scope.isHomeImageVisible = true;
 
  $scope.categories = ['TOUTES LES BOUTEILLES', 'PERSONNAGES', 'MONUMENTS', 'OBJETS', 'ANIMAUX'];
- $scope.selectedCategory = 'TOUTES LES BOUTEILLES';
+ $scope.selectedCategory = 'BOUTEILLES PAR CATEGORIES';
 
  $scope.keyword = '';
 
@@ -14,8 +16,7 @@ bottlesApp.controller('PaintingListCtrl', function ($scope, $http) {
 
  $http.get('data/bottles.json').success(function(data) {
   $scope.bottlesNotPartitionned = data;
-  $scope.bottles = partition($scope.bottlesNotPartitionned, 6);
-}).error(function(data, status) {
+ }).error(function(data, status) {
   console.log(status);
 });
 
@@ -30,13 +31,17 @@ $scope.categorySelected = function categorySelected(category) {
     }
   }), 6); 
   $scope.keyword = '';
+  $scope.isHomeImageVisible = false;
 }
 
 $scope.search = function search() {
  $scope.bottles = partition($scope.bottlesNotPartitionned.filter(function(bottle) {
    return removeDiacritics(bottle.name.toUpperCase().trim()).includes(removeDiacritics($scope.keyword.toUpperCase().trim()));
   }), 6); 
+
   $scope.selectedCategory = 'RECHERCHE ' + $scope.keyword;
+
+  $scope.isHomeImageVisible = false;
 }
 
 $scope.viewDetails = function(bottle) {
