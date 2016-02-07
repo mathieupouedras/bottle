@@ -20,6 +20,13 @@ bottlesApp.controller('PaintingListCtrl', function ($scope, $http) {
   console.log(status);
 });
 
+$scope.home = function home() {
+  $scope.isHomeImageVisible = true;
+  $scope.selectedCategory = 'BOUTEILLES PAR CATEGORIES';
+  $scope.keyword = '';
+  $scope.bottles = [];
+};
+
 $scope.categorySelected = function categorySelected(category) {
   $scope.selectedCategory = category;
   $scope.bottles = partition($scope.bottlesNotPartitionned.filter(function(bottle) {
@@ -32,7 +39,7 @@ $scope.categorySelected = function categorySelected(category) {
   }), 6); 
   $scope.keyword = '';
   $scope.isHomeImageVisible = false;
-}
+};
 
 $scope.search = function search() {
  $scope.bottles = partition($scope.bottlesNotPartitionned.filter(function(bottle) {
@@ -42,7 +49,7 @@ $scope.search = function search() {
   $scope.selectedCategory = 'RECHERCHE ' + $scope.keyword;
 
   $scope.isHomeImageVisible = false;
-}
+};
 
 $scope.viewDetails = function(bottle) {
  $scope.view = {};
